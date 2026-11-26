@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Toko - UMKM Digital</title>
+  <link rel="icon" href="logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <nav class="nav" aria-label="Menu utama">
+    <div class="brand"><strong id="store-title">UMKM Digital</strong><span>Panel operasional kuliner</span></div>
+    <a href="#dashboard">Pesanan</a><a href="#pelanggan">Pelanggan</a><a href="#stok">Stok</a>
+    <a href="#pengeluaran">Pengeluaran</a><a href="#laporan">Laporan</a><a href="#akun">Akun</a>
+  </nav>
+
+  <main>
+    <!-- PESANAN -->
+    <section id="v-dashboard" class="view">
+      <header class="head"><h1>Pesanan</h1>
+        <div class="period"><select id="d-mode" aria-label="Periode"><option value="harian">Harian</option><option value="semua">Semua</option></select><input type="date" id="d-val" aria-label="Tanggal" /></div>
+      </header>
+      <div class="stats">
+        <div><span>Pesanan</span><b id="s-total">0</b></div><div><span>Baru</span><b id="s-baru">0</b></div>
+        <div><span>Diproses</span><b id="s-proses">0</b></div><div><span>Selesai</span><b id="s-selesai">0</b></div>
+        <div class="wide"><span>Omzet</span><b id="s-omzet">Rp 0</b></div><div class="wide"><span>Produk terlaris</span><b id="s-top">-</b></div>
+      </div>
+
+      <form id="order-form" class="card" novalidate>
+        <h2>Catat pesanan baru</h2>
+        <div class="grid">
+          <label>Tanggal<input type="date" id="o-date" required /></label>
+          <label>ID pelanggan / No. meja<input id="o-ref" placeholder="Meja 5 atau 0812..." required /></label>
+          <label>Nama pemesan<input id="o-name" required /></label>
+          <label>Tipe pesanan<select id="o-type"><option>Dine-In</option><option>Takeaway</option><option>Delivery</option></select></label>
+          <label>Saluran<select id="o-channel"><option>Kasir</option><option>WhatsApp</option><option>GoFood/GrabFood/ShopeeFood</option></select></label>
+          <label>Pembayaran<select id="o-pay"><option>Tunai</option><option>QRIS</option><option>Transfer Bank</option></select></label>
+        </div>
+        <h3>Menu dipesan</h3>
+        <div id="items"></div>
+        <div class="row"><button type="button" class="ghost" id="add-row">+ Tambah menu</button><a href="#stok">Kelola menu & stok</a></div>
+        <div class="total"><span>Total</span><b id="o-total">Rp 0</b></div>
+        <button class="btn" id="o-save">Simpan pesanan</button>
+      </form>
+
+      <div class="card">
+        <div class="head"><h2>Daftar pesanan</h2>
+          <div class="period"><input type="search" id="d-q" placeholder="Cari no. order / nama" aria-label="Cari pesanan" />
+          <select id="d-status" aria-label="Status"><option value="">Semua status</option><option>Baru</option><option>Diproses</option><option>Selesai</option></select></div></div>
+        <div class="tw"><table><thead><tr><th>No</th><th>Pelanggan</th><th>Menu</th><th>Saluran & bayar</th><th>Total</th><th>Status</th><th></th></tr></thead><tbody id="t-orders"></tbody></table></div>
+      </div>
+    </section>
+
+    <!-- PELANGGAN -->
+    <section id="v-pelanggan" class="view" hidden>
+      <header class="head"><h1>Pelanggan</h1><input type="search" id="c-q" placeholder="Cari nama / ID" aria-label="Cari pelanggan" /></header>
+      <p class="note">Data pelanggan tersimpan otomatis dari setiap pesanan.</p>
+      <div class="card tw"><table><thead><tr><th>Pelanggan</th><th>ID / meja</th><th>Tipe terakhir</th><th>Jumlah order</th><th>Total belanja</th></tr></thead><tbody id="t-cust"></tbody></table></div>
+    </section>
+
+    <!-- STOK -->
+    <section id="v-stok" class="view" hidden>
+      <header class="head"><h1>Stok produk</h1><input type="search" id="p-q" placeholder="Cari produk" aria-label="Cari produk" /></header>
+      <form id="product-form" class="card grid">
+        <label>Nama produk<input id="p-name" required /></label>
+        <label>Harga (Rp)<input type="number" id="p-price" min="0" step="500" required /></label>
+        <label>Stok awal<input type="number" id="p-stock" min="0" step="1" required /></label>
+        <button class="btn">Tambah produk</button>
+      </form>
+      <p class="note">Stok berkurang otomatis saat pesanan disimpan, dan kembali saat pesanan dibatalkan.</p>
+      <div class="card tw"><table><thead><tr><th>ID</th><th>Produk</th><th>Harga</th><th>Sisa</th><th>Keterangan</th><th></th></tr></thead><tbody id="t-prod"></tbody></table></div>
+    </section>
+
+    <!-- PENGELUARAN -->
+    <section id="v-pengeluaran" class="view" hidden>
+      <header class="head"><h1>Pengeluaran</h1>
+        <div class="period"><select id="e-mode" aria-label="Periode"><option value="harian">Harian</option><option value="bulanan">Bulanan</option><option value="semua">Semua</option></select><input id="e-val" aria-label="Pilih periode" /></div></header>
+      <form id="exp-form" class="card grid">
+        <label>Tanggal<input type="date" id="x-date" required /></label>
+        <label>Deskripsi<input id="x-desc" required /></label>
+        <label>Kategori<select id="x-cat"><option>Bahan baku</option><option>Operasional</option><option>Gaji karyawan</option><option>Pemasaran</option><option>Lain-lain</option></select></label>
+        <label>Sumber dana<select id="x-src"><option>Tunai</option><option>Non-tunai</option></select></label>
+        <label>Nominal (Rp)<input type="number" id="x-amt" min="1" required /></label>
+        <button class="btn">Simpan pengeluaran</button>
+      </form>
+      <div class="stats"><div class="wide"><span>Total pengeluaran</span><b id="e-total">Rp 0</b></div><div class="wide"><span>Dari kas tunai</span><b id="e-cash">Rp 0</b></div></div>
+      <div class="card"><div class="head"><h2>Rincian</h2><select id="e-cat" aria-label="Kategori"><option value="">Semua kategori</option><option>Bahan baku</option><option>Operasional</option><option>Gaji karyawan</option><option>Pemasaran</option><option>Lain-lain</option></select></div>
+        <div class="tw"><table><thead><tr><th>Tanggal</th><th>Deskripsi</th><th>Kategori</th><th>Sumber</th><th>Nominal</th><th></th></tr></thead><tbody id="t-exp"></tbody></table></div></div>
+    </section>
+
+    <!-- LAPORAN -->
+    <section id="v-laporan" class="view" hidden>
+      <header class="head"><h1>Penjualan & keuangan</h1>
+        <div class="period"><select id="r-mode" aria-label="Periode"><option value="harian">Harian</option><option value="bulanan">Bulanan</option><option value="semua">Semua</option></select><input id="r-val" aria-label="Pilih periode" /><button class="ghost" id="export">Unduh Excel</button></div></header>
+      <div class="stats">
+        <div class="wide"><span>Omzet</span><b id="r-omzet">Rp 0</b></div><div class="wide"><span>Pengeluaran</span><b id="r-exp">Rp 0</b></div>
+        <div class="wide hl"><span>Laba bersih</span><b id="r-profit">Rp 0</b></div>
+        <div><span>Tunai bersih</span><b id="r-cash">Rp 0</b></div><div><span>QRIS</span><b id="r-qris">Rp 0</b></div><div><span>Transfer</span><b id="r-tf">Rp 0</b></div>
+        <div class="wide"><span>Saluran terbanyak</span><b id="r-chan">-</b></div><div class="wide"><span>Produk terlaris</span><b id="r-top">-</b></div>
+      </div>
+      <div class="card"><h2>Detail transaksi</h2><div class="tw"><table><thead><tr><th>Tanggal</th><th>Produk</th><th>Qty</th><th>Pelanggan / bayar</th><th>Total</th></tr></thead><tbody id="t-sales"></tbody></table></div></div>
+    </section>
+
+    <!-- AKUN -->
+    <section id="v-akun" class="view" hidden>
+      <header class="head"><h1>Akun</h1></header>
+      <form id="profile-form" class="card grid"><h2 class="full">Profil usaha</h2>
+        <label>Nama usaha<input id="a-store" required /></label><label>Nama pemilik<input id="a-owner" required /></label>
+        <label>WhatsApp<input id="a-phone" type="tel" /></label><label>Alamat<input id="a-addr" /></label>
+        <button class="btn">Simpan profil</button></form>
+      <form id="pass-form" class="card grid"><h2 class="full">Keamanan</h2>
+        <label>Email login<input id="a-email" readonly /></label><label>Password lama<input type="password" id="a-old" autocomplete="current-password" required /></label>
+        <label>Password baru (min. 8)<input type="password" id="a-new" autocomplete="new-password" minlength="8" required /></label>
+        <label>Ulangi password baru<input type="password" id="a-new2" autocomplete="new-password" required /></label>
+        <button class="btn">Perbarui password</button></form>
+      <div class="card"><p id="a-summary" class="note"></p><button class="ghost danger" id="logout">Keluar dari akun</button></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

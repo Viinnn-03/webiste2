@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Panel operasional untuk UMKM kuliner: pesanan, stok, pengeluaran, dan laporan penjualan." />
+    <title>Masuk - UMKM Digital</title>
+    <link rel="icon" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+    <link rel="stylesheet" href="auth.css" />
+  </head>
+  <body>
+    <main>
+      <!-- MASUK -->
+      <section id="login-box" class="auth-card" aria-labelledby="login-title">
+        <div class="auth-header">
+          <img src="logo.png" alt="Logo UMKM Digital" onerror="this.hidden = true" />
+          <h1 id="login-title">Masuk ke panel toko</h1>
+          <p>Kelola pesanan, stok, dan laporan usaha kuliner Anda.</p>
+        </div>
+        <form id="login-form" novalidate>
+          <div class="field">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" autocomplete="username" required />
+          </div>
+          <div class="field">
+            <label for="login-password">Password</label>
+            <div class="password-row">
+              <input type="password" id="login-password" autocomplete="current-password" required />
+              <button type="button" class="toggle-pass" data-target="login-password" aria-pressed="false">Tampilkan</button>
+            </div>
+          </div>
+          <p class="forgot"><button type="button" id="btn-forgot" class="link-btn">Lupa password?</button></p>
+          <button type="submit" id="btn-login" class="btn-primary">Masuk</button>
+        </form>
+        <p class="switch">Belum punya akun? <button type="button" class="link-btn" data-show="register">Daftar usaha baru</button></p>
+      </section>
+
+      <!-- DAFTAR -->
+      <section id="register-box" class="auth-card" aria-labelledby="register-title" hidden>
+        <div class="auth-header">
+          <img src="logo.png" alt="Logo UMKM Digital" onerror="this.hidden = true" />
+          <h1 id="register-title">Daftarkan usaha Anda</h1>
+          <p>Gratis. Data tersimpan aman di cloud.</p>
+        </div>
+        <form id="register-form" novalidate>
+          <div class="field">
+            <label for="reg-store-name">Nama usaha</label>
+            <input type="text" id="reg-store-name" autocomplete="organization" placeholder="Mie Sop Kampung Medan" required />
+          </div>
+          <div class="field">
+            <label for="reg-owner-name">Nama pemilik</label>
+            <input type="text" id="reg-owner-name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="reg-phone">Nomor WhatsApp</label>
+            <input type="tel" id="reg-phone" inputmode="tel" autocomplete="tel" placeholder="081234567890" required />
+          </div>
+          <div class="field">
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" autocomplete="email" required />
+            <small>Dipakai untuk masuk dan mereset password.</small>
+          </div>
+          <div class="field">
+            <label for="reg-password">Password</label>
+            <div class="password-row">
+              <input type="password" id="reg-password" autocomplete="new-password" minlength="8" required />
+              <button type="button" class="toggle-pass" data-target="reg-password" aria-pressed="false">Tampilkan</button>
+            </div>
+            <small>Minimal 8 karakter.</small>
+          </div>
+          <div class="field">
+            <label for="reg-confirm-password">Ulangi password</label>
+            <input type="password" id="reg-confirm-password" autocomplete="new-password" required />
+          </div>
+          <button type="submit" id="btn-register" class="btn-primary">Buat akun</button>
+        </form>
+        <p class="switch">Sudah punya akun? <button type="button" class="link-btn" data-show="login">Masuk</button></p>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="auth.js"></script>
+  </body>
+</html>

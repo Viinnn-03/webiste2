@@ -1,0 +1,64 @@
+:root {
+  --green: #059669;
+  --green-dark: #047857;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #cbd5e1;
+  --bg: #f5efe6;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: var(--bg);
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--ink);
+}
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  padding: 32px 28px;
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+}
+.auth-card[hidden] { display: none; }
+.auth-header { text-align: center; margin-bottom: 20px; }
+.auth-header img { width: 96px; height: 96px; object-fit: contain; border-radius: 50%; }
+.auth-header h1 { font-size: 22px; margin: 8px 0 4px; }
+.auth-header p { margin: 0; color: var(--muted); font-size: 14px; }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.field input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font: inherit;
+}
+.field input:focus-visible,
+button:focus-visible,
+a:focus-visible { outline: 3px solid rgba(5, 150, 105, 0.35); outline-offset: 1px; }
+.field small { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+.password-row { position: relative; }
+.password-row input { padding-right: 96px; }
+.toggle-pass {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  background: none; border: 0; color: var(--green); font-weight: 600;
+  font-size: 12px; cursor: pointer; padding: 6px 8px;
+}
+.btn-primary {
+  width: 100%; padding: 12px; border: 0; border-radius: 10px;
+  background: var(--green); color: #fff; font: inherit; font-weight: 700; cursor: pointer;
+}
+.btn-primary:hover { background: var(--green-dark); }
+.btn-primary:disabled { opacity: 0.6; cursor: wait; }
+.link-btn {
+  background: none; border: 0; padding: 0; font: inherit;
+  color: var(--green); font-weight: 600; cursor: pointer; text-decoration: underline;
+}
+.forgot { text-align: right; margin: -4px 0 16px; font-size: 13px; }
+.switch { text-align: center; margin: 18px 0 0; font-size: 14px; color: var(--muted); }
